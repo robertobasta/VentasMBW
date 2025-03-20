@@ -20,13 +20,6 @@ def get_connection():
 
     return sqlite3.connect(DB_PATH)
 
-# 🔹 **DEBUG: Verificar qué base de datos está usando Streamlit Cloud**
-st.write(f"📍 Ruta de la base de datos en Streamlit: `{os.path.abspath(DB_PATH)}`")
-if os.path.exists(DB_PATH):
-    st.write(f"✅ La base de datos existe en Streamlit. Tamaño: `{os.path.getsize(DB_PATH)} bytes`")
-else:
-    st.write("⚠️ La base de datos NO existe en Streamlit. Se usará una nueva o vacía.")
-
 # Obtener opciones de vendedores y turnos
 def get_vendors_and_shifts():
     conn = get_connection()
