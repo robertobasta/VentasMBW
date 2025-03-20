@@ -1,9 +1,21 @@
 import streamlit as st
 import sqlite3
 import pandas as pd
+import os
+import urllib.request
 
-# Ruta de la base de datos
-DB_PATH = "/Users/robertobastarracheamedina/Desktop/MBW STUFF/CODIGO MBW/venta de producto/data/ventas_producto.db"
+# Ruta local donde se guardará la base de datos
+DB_PATH = "ventas_producto.db"
+
+# URL cruda del archivo en GitHub
+GITHUB_DB_URL = "https://raw.githubusercontent.com/robertobasta/VentasMBW/main/data/ventas_producto.db"
+
+def get_connection():
+    # Si la base de datos no existe o es muy pequeña (puede estar dañada), la descarga
+    if not os.path.exists(DB_PATH) or os.path.getsize(DB_PATH) < 10000:
+        urllib.request.urlretrieve(GITHUB_DB_URL, DB_PATH)
+
+    return sqlite3.connect(DB_PATH)
 
 # Función para obtener los productos en el refri, sin unificar nombres
 def get_refri_data():
