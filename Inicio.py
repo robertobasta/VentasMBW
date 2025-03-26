@@ -3,6 +3,7 @@ import sqlite3
 import pandas as pd
 import os
 import urllib.request
+import shutil
 
 # Configuración de la página
 st.set_page_config(page_title="Inicio - Venta de Productos", layout="wide")
@@ -144,6 +145,24 @@ with col5:
     st.write("### 🧊 Stock en Refrigerador")
     df_refrigerator = get_refrigerator_stock()
     st.dataframe(df_refrigerator, hide_index=True)
+
+st.markdown("---")
+st.subheader("🛠️ Administrar Base de Datos")
+
+# Descargar base de datos actual
+st.write("📥 Descargar la base de datos actual:")
+with open(DB_PATH, "rb") as file:
+    st.download_button(label="Descargar ventas_producto.db", data=file, file_name="ventas_producto.db")
+
+# Subir nueva base de datos
+st.write("📤 Subir nueva versión de la base de datos:")
+uploaded_file = st.file_uploader("Sube aquí una nueva versión de ventas_producto.db", type=["db"])
+
+if uploaded_file is not None:
+    with open(DB_PATH, "wb") as f:
+        shutil.copyfileobj(uploaded_file, f)
+    st.success("✅ Base de datos reemplazada exitosamente.")
+
 
 st.markdown("---")
 st.write("Desarrollado por MBW 🚀")
